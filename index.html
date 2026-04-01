@@ -1,41 +1,30 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Partner Dashboard</title>
+<title>Trein Group — Partner Portal</title>
+<link rel="icon" href="https://treingroup.it/favicon.ico" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #f7f6f3;
-    --surface: #ffffff;
-    --surface2: #f0ede8;
-    --text: #1a1a18;
-    --text-muted: #6b6a66;
-    --border: rgba(0,0,0,0.10);
-    --accent: #1a1a18;
-    --accent-light: #f0ede8;
-    --green: #2d6a4f;
-    --green-bg: #eaf3de;
-    --radius: 12px;
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --surface3: #222222;
+    --text: #f5f0e8;
+    --text-muted: #888880;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.16);
+    --accent: #e8c547;
+    --accent-dim: rgba(232,197,71,0.12);
+    --green: #4ade80;
+    --green-bg: rgba(74,222,128,0.10);
+    --red: #f87171;
+    --radius: 14px;
     --radius-sm: 8px;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #141412;
-      --surface: #1e1e1c;
-      --surface2: #2a2a27;
-      --text: #f0ede8;
-      --text-muted: #9a9893;
-      --border: rgba(255,255,255,0.10);
-      --accent: #f0ede8;
-      --accent-light: #2a2a27;
-      --green: #9FE1CB;
-      --green-bg: #085041;
-    }
   }
 
   body {
@@ -43,648 +32,707 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 0;
   }
 
-  .header {
-    padding: 2rem 2.5rem 1.5rem;
-    border-bottom: 0.5px solid var(--border);
+  /* ─── LOGIN SCREEN ─── */
+  .login-screen {
+    min-height: 100vh;
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    background: var(--surface);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: radial-gradient(ellipse at 50% 0%, rgba(232,197,71,0.06) 0%, transparent 60%), var(--bg);
   }
 
-  .header-left h1 {
-    font-size: 22px;
+  .login-box {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .brand-logo img {
+    height: 36px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .brand-logo-text {
+    font-size: 26px;
     font-weight: 400;
     letter-spacing: -0.5px;
     color: var(--text);
   }
 
-  .header-left p {
-    font-size: 13px;
+  .brand-logo-text span {
+    color: var(--accent);
+  }
+
+  .brand-sub {
+    font-size: 12px;
     color: var(--text-muted);
-    margin-top: 2px;
     font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #ccc;
-    display: inline-block;
-    margin-right: 6px;
-  }
-  .status-dot.live { background: #2d6a4f; }
-
-  .setup-card {
-    max-width: 560px;
-    margin: 3rem auto;
+  .login-card {
     background: var(--surface);
     border: 0.5px solid var(--border);
     border-radius: var(--radius);
     padding: 2rem;
   }
 
-  .setup-card h2 {
-    font-size: 18px;
+  .login-card h2 {
+    font-size: 16px;
     font-weight: 400;
-    margin-bottom: 0.5rem;
-    color: var(--text);
-  }
-
-  .setup-card p {
-    font-size: 13px;
     color: var(--text-muted);
     margin-bottom: 1.5rem;
     font-family: 'Courier New', monospace;
-    line-height: 1.6;
+    text-align: center;
+    letter-spacing: 0.5px;
   }
 
-  .field { margin-bottom: 1rem; }
+  .login-field { margin-bottom: 1rem; }
 
-  .field label {
+  .login-field label {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     font-family: 'Courier New', monospace;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
   }
 
-  .field input, .field select {
+  .login-field input {
     width: 100%;
-    padding: 10px 12px;
+    padding: 12px 14px;
     border: 0.5px solid var(--border);
     border-radius: var(--radius-sm);
     background: var(--surface2);
     color: var(--text);
-    font-size: 14px;
+    font-size: 15px;
     font-family: 'Courier New', monospace;
     outline: none;
-    transition: border-color 0.15s;
+    transition: border-color 0.2s;
   }
 
-  .field input:focus, .field select:focus {
-    border-color: var(--text-muted);
+  .login-field input:focus {
+    border-color: var(--accent);
   }
 
-  .btn-primary {
+  .login-btn {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     background: var(--accent);
-    color: var(--bg);
+    color: #0a0a0a;
     border: none;
     border-radius: var(--radius-sm);
     font-size: 14px;
     font-family: 'Georgia', serif;
+    font-weight: 400;
     cursor: pointer;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
+    letter-spacing: 0.3px;
     transition: opacity 0.15s;
   }
-  .btn-primary:hover { opacity: 0.85; }
-  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .login-btn:hover { opacity: 0.88; }
 
-  .error-msg {
-    background: #fcebeb;
-    color: #a32d2d;
+  .login-error {
+    background: rgba(248,113,113,0.10);
+    border: 0.5px solid rgba(248,113,113,0.25);
+    color: var(--red);
     border-radius: var(--radius-sm);
     padding: 10px 14px;
     font-size: 13px;
     font-family: 'Courier New', monospace;
     margin-top: 1rem;
     display: none;
-  }
-
-  .dashboard { display: none; padding: 2rem 2.5rem; }
-
-  .period-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 1.5rem;
-    align-items: center;
-  }
-
-  .period-btn {
-    padding: 6px 14px;
-    border: 0.5px solid var(--border);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-    transition: all 0.15s;
-  }
-  .period-btn.active {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-  }
-
-  .product-badge {
-    margin-left: auto;
-    padding: 4px 12px;
-    background: var(--surface2);
-    border-radius: 20px;
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 220px;
-  }
-
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 1.5rem;
-  }
-
-  .metric-card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-  }
-
-  .metric-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .metric-value {
-    font-size: 26px;
-    font-weight: 400;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
-
-  .metric-card.highlight .metric-value {
-    color: var(--green);
-  }
-
-  .metric-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 4px;
-    font-family: 'Courier New', monospace;
-  }
-
-  .chart-section {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .chart-title {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin-bottom: 1rem;
-  }
-
-  .table-section {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .table-header {
-    padding: 1rem 1.25rem;
-    border-bottom: 0.5px solid var(--border);
-    font-size: 13px;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-
-  th {
-    padding: 10px 1.25rem;
-    text-align: left;
-    font-weight: 400;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    border-bottom: 0.5px solid var(--border);
-  }
-
-  td {
-    padding: 12px 1.25rem;
-    border-bottom: 0.5px solid var(--border);
-    color: var(--text);
-    font-family: 'Courier New', monospace;
-  }
-
-  tr:last-child td { border-bottom: none; }
-
-  .badge-success {
-    display: inline-block;
-    padding: 2px 8px;
-    background: var(--green-bg);
-    color: var(--green);
-    border-radius: 4px;
-    font-size: 11px;
-  }
-
-  .badge-warn {
-    display: inline-block;
-    padding: 2px 8px;
-    background: #faeeda;
-    color: #854f0b;
-    border-radius: 4px;
-    font-size: 11px;
-  }
-
-  .loading {
     text-align: center;
-    padding: 3rem;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
   }
 
-  .loading::after {
-    content: '';
-    display: block;
-    width: 24px; height: 24px;
-    border: 2px solid var(--border);
-    border-top-color: var(--text-muted);
-    border-radius: 50%;
-    margin: 1rem auto 0;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .reset-btn {
-    background: none;
-    border: 0.5px solid var(--border);
-    color: var(--text-muted);
-    padding: 6px 14px;
-    border-radius: var(--radius-sm);
-    font-size: 12px;
-    font-family: 'Courier New', monospace;
-    cursor: pointer;
-  }
-  .reset-btn:hover { border-color: var(--text-muted); }
-
-  .watermark {
+  .login-footer {
     text-align: center;
-    padding: 2rem;
+    margin-top: 1.5rem;
     font-size: 11px;
     color: var(--text-muted);
     font-family: 'Courier New', monospace;
     opacity: 0.5;
   }
+
+  /* ─── SETUP SCREEN (after login) ─── */
+  .setup-screen {
+    display: none;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--bg);
+  }
+
+  .setup-box { width: 100%; max-width: 480px; }
+
+  .setup-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .setup-brand img {
+    height: 28px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .setup-brand-text {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .setup-brand-text span { color: var(--accent); }
+
+  .setup-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+  }
+
+  .setup-card h2 { font-size: 16px; font-weight: 400; margin-bottom: 0.3rem; color: var(--text); }
+  .setup-card .desc { font-size: 12px; color: var(--text-muted); margin-bottom: 1.5rem; font-family: 'Courier New', monospace; line-height: 1.6; }
+
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-family: 'Courier New', monospace; letter-spacing: 0.8px; text-transform: uppercase; }
+  .field input { width: 100%; padding: 10px 12px; border: 0.5px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); color: var(--text); font-size: 14px; font-family: 'Courier New', monospace; outline: none; transition: border-color 0.2s; }
+  .field input:focus { border-color: rgba(232,197,71,0.5); }
+
+  .btn-primary { width: 100%; padding: 12px; background: var(--accent); color: #0a0a0a; border: none; border-radius: var(--radius-sm); font-size: 14px; font-family: 'Georgia', serif; cursor: pointer; margin-top: 0.5rem; transition: opacity 0.15s; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .error-msg { background: rgba(248,113,113,0.10); border: 0.5px solid rgba(248,113,113,0.2); color: var(--red); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; font-family: 'Courier New', monospace; margin-top: 1rem; display: none; line-height: 1.5; }
+
+  .progress-bar-wrap { margin-top: 1rem; display: none; }
+  .progress-label { font-size: 12px; color: var(--text-muted); font-family: 'Courier New', monospace; margin-bottom: 6px; }
+  .progress-bar { height: 2px; background: var(--surface3); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
+
+  /* ─── DASHBOARD ─── */
+  .dashboard { display: none; min-height: 100vh; background: var(--bg); }
+
+  .dash-header {
+    padding: 1rem 2rem;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .dash-header img {
+    height: 26px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .dash-header-brand {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .dash-header-brand span { color: var(--accent); }
+
+  .dash-header-sep { width: 0.5px; height: 18px; background: var(--border); }
+
+  .dash-header-title {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+  }
+
+  .dash-header-actions { margin-left: auto; display: flex; gap: 8px; }
+
+  .logout-btn {
+    background: none;
+    border: 0.5px solid var(--border);
+    color: var(--text-muted);
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .logout-btn:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .dash-body { padding: 1.5rem 2rem; }
+
+  /* FILTER BAR */
+  .filter-bar {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.875rem 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .filter-label { font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.6px; white-space: nowrap; }
+  .period-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+  .period-btn { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 20px; background: transparent; color: var(--text-muted); font-size: 12px; cursor: pointer; font-family: 'Courier New', monospace; transition: all 0.15s; white-space: nowrap; }
+  .period-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .period-btn.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+  .date-divider { width: 0.5px; height: 22px; background: var(--border); flex-shrink: 0; }
+  .date-range { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .date-sep { font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; }
+  .date-range input[type="date"] { padding: 5px 10px; border: 0.5px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); color: var(--text); font-size: 12px; font-family: 'Courier New', monospace; outline: none; cursor: pointer; transition: border-color 0.2s; }
+  .date-range input[type="date"]:focus { border-color: rgba(232,197,71,0.5); }
+  .apply-btn { padding: 5px 14px; border: 0.5px solid rgba(232,197,71,0.4); border-radius: var(--radius-sm); background: transparent; color: var(--accent); font-size: 12px; font-family: 'Courier New', monospace; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .apply-btn:hover { background: var(--accent); color: #0a0a0a; }
+  .product-badge { margin-left: auto; padding: 4px 12px; background: var(--accent-dim); border: 0.5px solid rgba(232,197,71,0.2); border-radius: 20px; font-size: 11px; color: var(--accent); font-family: 'Courier New', monospace; white-space: nowrap; }
+
+  /* METRICS */
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .metric-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+  .metric-label { font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 8px; }
+  .metric-value { font-size: 26px; font-weight: 400; letter-spacing: -0.5px; color: var(--text); }
+  .metric-card.highlight { border-color: rgba(232,197,71,0.2); background: rgba(232,197,71,0.04); }
+  .metric-card.highlight .metric-value { color: var(--accent); }
+  .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; font-family: 'Courier New', monospace; }
+
+  /* CHART */
+  .chart-section { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+  .chart-title { font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 1rem; }
+
+  /* TABLE */
+  .table-section { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 2rem; }
+  .table-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--border); font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between; }
+  .export-btn { padding: 4px 10px; border: 0.5px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); font-size: 11px; font-family: 'Courier New', monospace; cursor: pointer; transition: all 0.15s; }
+  .export-btn:hover { border-color: var(--accent); color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { padding: 10px 1.25rem; text-align: left; font-weight: 400; color: var(--text-muted); font-family: 'Courier New', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 0.5px solid var(--border); }
+  td { padding: 11px 1.25rem; border-bottom: 0.5px solid var(--border); color: var(--text); font-family: 'Courier New', monospace; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .empty-row td { text-align: center; color: var(--text-muted); padding: 2.5rem; }
+
+  .watermark { text-align: center; padding: 1.5rem; font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; opacity: 0.3; }
+
+  @media (max-width: 650px) {
+    .metrics-grid { grid-template-columns: 1fr; }
+    .dash-body { padding: 1rem; }
+    .filter-bar { gap: 8px; }
+    .date-divider { display: none; }
+    .dash-header { padding: 1rem; }
+  }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-left">
-    <h1>Partner Dashboard</h1>
-    <p id="header-sub">— configura l'accesso per iniziare</p>
-  </div>
-  <button class="reset-btn" id="reset-btn" style="display:none" onclick="resetConfig()">↩ riconfigura</button>
-</div>
-
-<div id="setup-section">
-  <div class="setup-card">
-    <h2>Configurazione accesso</h2>
-    <p>Inserisci la Restricted API Key di Stripe (sola lettura) e il Product ID o Price ID del prodotto da monitorare.</p>
-
-    <div class="field">
-      <label>Stripe Restricted API Key</label>
-      <input type="password" id="api-key" placeholder="rk_live_..." autocomplete="off" />
+<!-- ═══════════════════════════════════ LOGIN SCREEN ═══════════════════════════════════ -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="https://treingroup.it/favicon.ico" alt="Trein" onerror="this.style.display='none'" />
+        <div class="brand-logo-text">Trein<span>Group</span></div>
+      </div>
+      <div class="brand-sub">Partner Portal</div>
     </div>
-
-    <div class="field">
-      <label>Product ID o Price ID</label>
-      <input type="text" id="product-id" placeholder="prod_... oppure price_..." />
+    <div class="login-card">
+      <h2>Accesso riservato</h2>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••••••••" onkeydown="if(event.key==='Enter') doLogin()" autocomplete="current-password" />
+      </div>
+      <button class="login-btn" onclick="doLogin()">Accedi →</button>
+      <div class="login-error" id="login-error">Password non corretta. Riprova.</div>
     </div>
-
-    <div class="field">
-      <label>Quota partner (%)</label>
-      <input type="number" id="quota-pct" value="20" min="1" max="100" />
-    </div>
-
-    <div class="field">
-      <label>Nome prodotto (etichetta)</label>
-      <input type="text" id="product-label" placeholder="es. Corso Premium" />
-    </div>
-
-    <button class="btn-primary" id="load-btn" onclick="loadData()">Carica dati →</button>
-    <div class="error-msg" id="error-msg"></div>
+    <div class="login-footer">Trein Group Srl · Trento · treingroup.it</div>
   </div>
 </div>
 
-<div class="dashboard" id="dashboard-section">
-  <div class="period-bar">
-    <button class="period-btn active" onclick="setPeriod(30, this)">30 giorni</button>
-    <button class="period-btn" onclick="setPeriod(90, this)">90 giorni</button>
-    <button class="period-btn" onclick="setPeriod(180, this)">6 mesi</button>
-    <button class="period-btn" onclick="setPeriod(365, this)">12 mesi</button>
-    <span class="product-badge" id="product-badge">—</span>
+<!-- ═══════════════════════════════════ SETUP SCREEN ═══════════════════════════════════ -->
+<div class="setup-screen" id="setup-screen">
+  <div class="setup-box">
+    <div class="setup-brand">
+      <img src="https://treingroup.it/favicon.ico" alt="Trein" onerror="this.style.display='none'" />
+      <div class="setup-brand-text">Trein<span>Group</span> — Configurazione</div>
+    </div>
+    <div class="setup-card">
+      <h2>Connetti Stripe</h2>
+      <p class="desc">Inserisci le credenziali per caricare i dati di incasso del prodotto in partnership.</p>
+      <div class="field">
+        <label>Stripe Restricted API Key</label>
+        <input type="password" id="api-key" placeholder="rk_live_..." autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>Product ID o Price ID</label>
+        <input type="text" id="product-id" placeholder="prod_... oppure price_..." />
+      </div>
+      <div class="field">
+        <label>Quota partner (%)</label>
+        <input type="number" id="quota-pct" value="20" min="1" max="100" />
+      </div>
+      <div class="field">
+        <label>Nome prodotto (etichetta)</label>
+        <input type="text" id="product-label" placeholder="es. Trein Express" />
+      </div>
+      <button class="btn-primary" id="load-btn" onclick="loadData()">Carica dati →</button>
+      <div class="progress-bar-wrap" id="progress-wrap">
+        <div class="progress-label" id="progress-label">Recupero pagamenti...</div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+      <div class="error-msg" id="error-msg"></div>
+    </div>
   </div>
-
-  <div id="dashboard-content"></div>
 </div>
 
-<div class="watermark">Partner Dashboard — dati in tempo reale da Stripe</div>
+<!-- ═══════════════════════════════════ DASHBOARD ═══════════════════════════════════ -->
+<div class="dashboard" id="dashboard">
+
+  <div class="dash-header">
+    <img src="https://treingroup.it/favicon.ico" alt="Trein" onerror="this.style.display='none'" />
+    <div class="dash-header-brand">Trein<span>Group</span></div>
+    <div class="dash-header-sep"></div>
+    <div class="dash-header-title" id="dash-title">Partner Dashboard</div>
+    <div class="dash-header-actions">
+      <button class="logout-btn" onclick="reconfigure()">↩ riconfigura</button>
+      <button class="logout-btn" onclick="doLogout()">Esci</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <div class="filter-bar">
+      <span class="filter-label">Periodo</span>
+      <div class="period-presets">
+        <button class="period-btn" onclick="setPreset(7,this)">7g</button>
+        <button class="period-btn" onclick="setPreset(30,this)">30g</button>
+        <button class="period-btn" onclick="setPreset(90,this)">90g</button>
+        <button class="period-btn" onclick="setPreset(180,this)">6 mesi</button>
+        <button class="period-btn" onclick="setPreset(365,this)">12 mesi</button>
+        <button class="period-btn active" onclick="setPreset(9999,this)">Tutto</button>
+      </div>
+      <div class="date-divider"></div>
+      <div class="date-range">
+        <span class="date-sep">dal</span>
+        <input type="date" id="date-from" />
+        <span class="date-sep">al</span>
+        <input type="date" id="date-to" />
+        <button class="apply-btn" onclick="applyCustomRange()">Applica</button>
+      </div>
+      <span class="product-badge" id="product-badge">—</span>
+    </div>
+    <div id="dashboard-content"></div>
+  </div>
+</div>
 
 <script>
-let CONFIG = {};
-let allCharges = [];
-let chartInstance = null;
-let currentDays = 30;
+var PASS = 'AmbrosiTrein123!';
+var CONFIG = {};
+var allPayments = [];
+var chartInstance = null;
+var activeFrom = null;
+var activeTo = null;
 
-function showError(msg) {
-  const el = document.getElementById('error-msg');
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-
-function hideError() {
-  document.getElementById('error-msg').style.display = 'none';
-}
-
-async function stripeGet(path) {
-  const url = `https://api.stripe.com/v1/${path}`;
-  const resp = await fetch(url, {
-    headers: { 'Authorization': `Bearer ${CONFIG.apiKey}` }
-  });
-  const data = await resp.json();
-  if (data.error) throw new Error(data.error.message);
-  return data;
-}
-
-async function fetchAllCharges() {
-  let charges = [];
-  let params = 'limit=100&expand[]=data.payment_intent';
-  let hasMore = true;
-  let startingAfter = null;
-
-  while (hasMore) {
-    const q = startingAfter ? `${params}&starting_after=${startingAfter}` : params;
-    const data = await stripeGet(`charges?${q}`);
-    charges = charges.concat(data.data);
-    hasMore = data.has_more;
-    if (hasMore && data.data.length > 0) {
-      startingAfter = data.data[data.data.length - 1].id;
-    }
-    if (charges.length > 2000) break;
-  }
-  return charges;
-}
-
-async function fetchProductPrices(productId) {
-  if (productId.startsWith('price_')) return [productId];
-  const data = await stripeGet(`prices?product=${productId}&limit=100`);
-  return data.data.map(p => p.id);
-}
-
-async function fetchLineItemsForCharge(chargeId) {
-  try {
-    const charge = await stripeGet(`charges/${chargeId}?expand[]=invoice`);
-    if (charge.invoice && charge.invoice.lines) {
-      return charge.invoice.lines.data.map(l => l.price?.id).filter(Boolean);
-    }
-  } catch(e) {}
-  return [];
-}
-
-async function loadData() {
-  hideError();
-  const apiKey = document.getElementById('api-key').value.trim();
-  const productId = document.getElementById('product-id').value.trim();
-  const quotaPct = parseFloat(document.getElementById('quota-pct').value) || 20;
-  const productLabel = document.getElementById('product-label').value.trim() || productId;
-
-  if (!apiKey || !productId) {
-    showError('Inserisci sia la API Key che il Product ID.');
-    return;
-  }
-
-  CONFIG = { apiKey, productId, quotaPct, productLabel };
-
-  const btn = document.getElementById('load-btn');
-  btn.disabled = true;
-  btn.textContent = 'Caricamento...';
-
-  try {
-    const priceIds = await fetchProductPrices(productId);
-    if (priceIds.length === 0) throw new Error('Nessun prezzo trovato per questo prodotto.');
-
-    const rawCharges = await fetchAllCharges();
-
-    const filtered = [];
-    for (const charge of rawCharges) {
-      if (charge.status !== 'succeeded') continue;
-      const lineItemPrices = await fetchLineItemsForCharge(charge.id);
-      const match = lineItemPrices.some(pid => priceIds.includes(pid));
-      if (match) filtered.push(charge);
-      else {
-        const meta = charge.metadata || {};
-        const metaMatch = Object.values(meta).some(v => priceIds.includes(v) || v === productId);
-        if (metaMatch) filtered.push(charge);
-      }
-    }
-
-    allCharges = filtered;
-    CONFIG.currency = filtered.length > 0 ? filtered[0].currency.toUpperCase() : 'EUR';
-
-    document.getElementById('setup-section').style.display = 'none';
-    document.getElementById('dashboard-section').style.display = 'block';
-    document.getElementById('reset-btn').style.display = 'inline-block';
-    document.getElementById('product-badge').textContent = productLabel;
-    document.getElementById('header-sub').textContent = `— ${productLabel}`;
-
-    renderDashboard(currentDays);
-
-  } catch(e) {
-    showError('Errore: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Carica dati →';
+/* ─── LOGIN ─── */
+function doLogin() {
+  var val = document.getElementById('login-password').value;
+  if (val === PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'flex';
+    document.getElementById('login-error').style.display = 'none';
+  } else {
+    var err = document.getElementById('login-error');
+    err.style.display = 'block';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-password').focus();
+    setTimeout(function() { err.style.display = 'none'; }, 3000);
   }
 }
 
-function filterByDays(charges, days) {
-  const cutoff = Date.now() / 1000 - days * 86400;
-  return charges.filter(c => c.created >= cutoff);
-}
-
-function formatAmount(cents, currency) {
-  return new Intl.NumberFormat('it-IT', { style: 'currency', currency: currency || CONFIG.currency || 'EUR' }).format(cents / 100);
-}
-
-function formatDate(ts) {
-  return new Date(ts * 1000).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
-}
-
-function groupByMonth(charges) {
-  const map = {};
-  charges.forEach(c => {
-    const d = new Date(c.created * 1000);
-    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-    map[key] = (map[key] || 0) + c.amount;
-  });
-  const sorted = Object.keys(map).sort();
-  return { labels: sorted, values: sorted.map(k => map[k] / 100) };
-}
-
-function renderDashboard(days) {
-  const filtered = filterByDays(allCharges, days);
-  const totalCents = filtered.reduce((s, c) => s + c.amount, 0);
-  const total = totalCents / 100;
-  const quota = total * (CONFIG.quotaPct / 100);
-  const count = filtered.reduce((s, c) => s + (c.quantity || 1), 0);
-  const avg = filtered.length > 0 ? total / filtered.length : 0;
-
-  const monthly = groupByMonth(filtered);
-
-  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
-  const lineColor = isDark ? '#9FE1CB' : '#1a1a18';
-  const fillColor = isDark ? 'rgba(159,225,203,0.12)' : 'rgba(26,26,24,0.07)';
-  const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
-  const labelColor = isDark ? '#9a9893' : '#6b6a66';
-
-  const container = document.getElementById('dashboard-content');
-  container.innerHTML = `
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">Totale incassato</div>
-        <div class="metric-value">${formatAmount(totalCents)}</div>
-        <div class="metric-sub">${filtered.length} pagamenti</div>
-      </div>
-      <div class="metric-card highlight">
-        <div class="metric-label">Quota partner (${CONFIG.quotaPct}%)</div>
-        <div class="metric-value">${formatAmount(quota * 100)}</div>
-        <div class="metric-sub">su ${days} giorni</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Scontrino medio</div>
-        <div class="metric-value">${formatAmount(avg * 100)}</div>
-        <div class="metric-sub">per transazione</div>
-      </div>
-    </div>
-
-    <div class="chart-section">
-      <div class="chart-title">Andamento incassi per mese</div>
-      <div style="position: relative; width: 100%; height: 220px;">
-        <canvas id="revenue-chart"></canvas>
-      </div>
-    </div>
-
-    <div class="table-section">
-      <div class="table-header">Ultimi pagamenti</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>ID</th>
-            <th>Importo</th>
-            <th>Stato</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${filtered.slice(0, 50).map(c => `
-            <tr>
-              <td>${formatDate(c.created)}</td>
-              <td style="color: var(--text-muted); font-size: 11px;">${c.id}</td>
-              <td>${formatAmount(c.amount, c.currency)}</td>
-              <td><span class="${c.status === 'succeeded' ? 'badge-success' : 'badge-warn'}">${c.status}</span></td>
-            </tr>
-          `).join('')}
-          ${filtered.length === 0 ? '<tr><td colspan="4" style="text-align:center; color: var(--text-muted); padding: 2rem;">Nessun pagamento trovato nel periodo</td></tr>' : ''}
-        </tbody>
-      </table>
-    </div>
-  `;
-
+function doLogout() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-password').value = '';
+  allPayments = []; CONFIG = {};
   if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+}
 
-  if (monthly.labels.length > 0) {
-    chartInstance = new Chart(document.getElementById('revenue-chart'), {
-      type: 'line',
-      data: {
-        labels: monthly.labels.map(l => {
-          const [y, m] = l.split('-');
-          return new Date(y, m-1).toLocaleDateString('it-IT', { month: 'short', year: '2-digit' });
-        }),
-        datasets: [{
-          data: monthly.values,
-          borderColor: lineColor,
-          backgroundColor: fillColor,
-          borderWidth: 1.5,
-          pointRadius: 3,
-          pointBackgroundColor: lineColor,
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: {
-          callbacks: {
-            label: ctx => formatAmount(ctx.parsed.y * 100)
-          }
-        }},
-        scales: {
-          x: { grid: { color: gridColor }, ticks: { color: labelColor, font: { family: 'Courier New', size: 11 } } },
-          y: {
-            grid: { color: gridColor },
-            ticks: {
-              color: labelColor,
-              font: { family: 'Courier New', size: 11 },
-              callback: v => formatAmount(v * 100)
+function reconfigure() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'flex';
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('error-msg').style.display = 'none';
+  allPayments = []; CONFIG = {};
+  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+}
+
+/* ─── STRIPE ─── */
+function setProgress(pct, label) {
+  document.getElementById('progress-wrap').style.display = 'block';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = label;
+}
+
+function stripeGet(path) {
+  return fetch('https://api.stripe.com/v1/' + path, {
+    headers: { 'Authorization': 'Bearer ' + CONFIG.apiKey }
+  }).then(function(r) { return r.json(); }).then(function(d) {
+    if (d.error) throw new Error(d.error.message);
+    return d;
+  });
+}
+
+function fetchAllPages(endpoint) {
+  var results = [];
+  function next(sa) {
+    var sep = endpoint.indexOf('?') !== -1 ? '&' : '?';
+    var q = sa ? endpoint + sep + 'limit=100&starting_after=' + sa : endpoint + sep + 'limit=100';
+    return stripeGet(q).then(function(d) {
+      results = results.concat(d.data);
+      if (d.has_more && d.data.length > 0 && results.length < 3000) return next(d.data[d.data.length-1].id);
+      return results;
+    });
+  }
+  return next(null);
+}
+
+function loadData() {
+  document.getElementById('error-msg').style.display = 'none';
+  var apiKey = document.getElementById('api-key').value.trim();
+  var productId = document.getElementById('product-id').value.trim();
+  var quotaPct = parseFloat(document.getElementById('quota-pct').value) || 20;
+  var productLabel = document.getElementById('product-label').value.trim() || productId;
+  if (!apiKey || !productId) { showErr('Inserisci sia la API Key che il Product ID.'); return; }
+  CONFIG = { apiKey: apiKey, productId: productId, quotaPct: quotaPct, productLabel: productLabel };
+
+  var btn = document.getElementById('load-btn');
+  btn.disabled = true; btn.textContent = 'Caricamento...';
+
+  setProgress(10, 'Recupero prezzi del prodotto...');
+  var pricePromise = productId.startsWith('price_')
+    ? Promise.resolve([productId])
+    : fetchAllPages('prices?product=' + productId).then(function(ps) { return ps.map(function(p){ return p.id; }); });
+
+  pricePromise.then(function(pids) {
+    if (!pids.length) throw new Error('Nessun prezzo trovato. Verifica il Product ID su Stripe → Products.');
+    setProgress(30, 'Ricerca fatture associate...');
+    var invoiceIds = {};
+    var chain = Promise.resolve();
+    pids.forEach(function(pid, i) {
+      chain = chain.then(function() {
+        setProgress(30 + Math.round((i/pids.length)*35), 'Analisi prezzo '+(i+1)+' di '+pids.length+'...');
+        return fetchAllPages('invoice_items?price='+pid).then(function(items) {
+          items.forEach(function(item) {
+            if (item.invoice) {
+              var id = typeof item.invoice === 'string' ? item.invoice : item.invoice.id;
+              invoiceIds[id] = true;
             }
-          }
+          });
+        }).catch(function(){});
+      });
+    });
+    return chain.then(function() {
+      var ids = Object.keys(invoiceIds);
+      setProgress(68, 'Recupero '+ids.length+' fatture...');
+      var payments = [];
+      var ic = Promise.resolve();
+      ids.forEach(function(invId, i) {
+        ic = ic.then(function() {
+          if (i%5===0) setProgress(68+Math.round((i/Math.max(ids.length,1))*25), 'Fattura '+(i+1)+' di '+ids.length+'...');
+          return stripeGet('invoices/'+invId).then(function(inv) {
+            if (inv.status==='paid' && inv.amount_paid>0) {
+              payments.push({ id: inv.id, date: (inv.status_transitions&&inv.status_transitions.paid_at)?inv.status_transitions.paid_at:inv.created, amount: inv.amount_paid, currency: (inv.currency||'eur').toUpperCase(), description: inv.number||inv.id });
+            }
+          }).catch(function(){});
+        });
+      });
+      return ic.then(function() {
+        if (!payments.length) {
+          setProgress(80, 'Analisi pagamenti diretti...');
+          return fetchAllPages('charges').then(function(charges) {
+            charges.forEach(function(c) {
+              if (c.status!=='succeeded') return;
+              var vals = Object.values(c.metadata||{}).map(function(v){return String(v);});
+              if (vals.indexOf(productId)!==-1||pids.some(function(pid){return vals.indexOf(pid)!==-1;})) {
+                payments.push({id:c.id,date:c.created,amount:c.amount,currency:(c.currency||'eur').toUpperCase(),description:c.description||c.id});
+              }
+            });
+            return payments;
+          });
+        }
+        return payments;
+      });
+    });
+  }).then(function(payments) {
+    setProgress(100, 'Completato!');
+    allPayments = payments.sort(function(a,b){return b.date-a.date;});
+    CONFIG.currency = payments.length ? payments[0].currency : 'EUR';
+    activeFrom = null; activeTo = null;
+    var today = new Date();
+    document.getElementById('date-to').value = today.toISOString().split('T')[0];
+    if (payments.length) {
+      var oldest = new Date(Math.min.apply(null, payments.map(function(p){return p.date*1000;})));
+      document.getElementById('date-from').value = oldest.toISOString().split('T')[0];
+    }
+    setTimeout(function() {
+      document.getElementById('setup-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('product-badge').textContent = CONFIG.productLabel;
+      document.getElementById('dash-title').textContent = CONFIG.productLabel + ' — Dashboard Partner';
+      renderDashboard();
+    }, 400);
+  }).catch(function(e) {
+    showErr('Errore: ' + e.message);
+    document.getElementById('progress-wrap').style.display = 'none';
+  }).finally(function() {
+    btn.disabled = false; btn.textContent = 'Carica dati →';
+  });
+}
+
+function showErr(msg) {
+  var el = document.getElementById('error-msg');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+/* ─── FILTERS ─── */
+function setPreset(days, btn) {
+  document.querySelectorAll('.period-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  if (days>=9999) {
+    activeFrom=null; activeTo=null;
+    if (allPayments.length) {
+      var oldest = new Date(Math.min.apply(null, allPayments.map(function(p){return p.date*1000;})));
+      document.getElementById('date-from').value = oldest.toISOString().split('T')[0];
+    }
+    document.getElementById('date-to').value = new Date().toISOString().split('T')[0];
+  } else {
+    var to = new Date(), from = new Date(to.getTime()-days*86400000);
+    activeFrom = from.getTime()/1000; activeTo = to.getTime()/1000;
+    document.getElementById('date-from').value = from.toISOString().split('T')[0];
+    document.getElementById('date-to').value = to.toISOString().split('T')[0];
+  }
+  renderDashboard();
+}
+
+function applyCustomRange() {
+  document.querySelectorAll('.period-btn').forEach(function(b){b.classList.remove('active');});
+  var fromVal = document.getElementById('date-from').value;
+  var toVal = document.getElementById('date-to').value;
+  if (!fromVal||!toVal) { alert('Seleziona entrambe le date.'); return; }
+  var from = new Date(fromVal), to = new Date(toVal);
+  to.setHours(23,59,59);
+  if (from>to) { alert('La data di inizio deve essere precedente alla data di fine.'); return; }
+  activeFrom = from.getTime()/1000; activeTo = to.getTime()/1000;
+  renderDashboard();
+}
+
+function getFiltered() {
+  if (!activeFrom&&!activeTo) return allPayments;
+  return allPayments.filter(function(p) {
+    return (!activeFrom||p.date>=activeFrom) && (!activeTo||p.date<=activeTo);
+  });
+}
+
+/* ─── RENDER ─── */
+function fmt(cents, currency) {
+  return new Intl.NumberFormat('it-IT',{style:'currency',currency:currency||CONFIG.currency||'EUR'}).format(cents/100);
+}
+function fmtDate(ts) {
+  return new Date(ts*1000).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function groupByMonth(payments) {
+  var map={};
+  payments.forEach(function(p){
+    var d=new Date(p.date*1000);
+    var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    map[k]=(map[k]||0)+p.amount;
+  });
+  var s=Object.keys(map).sort();
+  return {labels:s, values:s.map(function(k){return map[k]/100;})};
+}
+function getPeriodLabel() {
+  if (!activeFrom&&!activeTo) return 'tutto il periodo';
+  return fmtDate(activeFrom||0)+' → '+(activeTo?fmtDate(activeTo):'oggi');
+}
+
+function exportCSV(filtered) {
+  var rows=[['Data','Riferimento','Importo ('+CONFIG.currency+')','Quota '+CONFIG.quotaPct+'%']];
+  filtered.forEach(function(p){rows.push([fmtDate(p.date),p.description,(p.amount/100).toFixed(2),(p.amount*CONFIG.quotaPct/100/100).toFixed(2)]);});
+  var csv=rows.map(function(r){return r.join(';');}).join('\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download='trein-partner-report.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function renderDashboard() {
+  var filtered = getFiltered();
+  var totalCents = filtered.reduce(function(s,p){return s+p.amount;},0);
+  var quota = totalCents*(CONFIG.quotaPct/100);
+  var avg = filtered.length ? totalCents/filtered.length : 0;
+  var monthly = groupByMonth(filtered);
+  var periodLabel = getPeriodLabel();
+
+  var lineColor = '#e8c547';
+  var fillColor = 'rgba(232,197,71,0.08)';
+  var gridColor = 'rgba(255,255,255,0.05)';
+  var labelColor = '#888880';
+
+  var rows = !filtered.length
+    ? '<tr class="empty-row"><td colspan="4">Nessun pagamento nel periodo selezionato</td></tr>'
+    : filtered.slice(0,200).map(function(p){
+        return '<tr><td>'+fmtDate(p.date)+'</td><td style="font-size:11px;color:var(--text-muted);">'+p.description+'</td><td>'+fmt(p.amount,p.currency)+'</td><td style="color:var(--accent);">'+fmt(Math.round(p.amount*CONFIG.quotaPct/100),p.currency)+'</td></tr>';
+      }).join('');
+
+  document.getElementById('dashboard-content').innerHTML =
+    '<div class="metrics-grid">'+
+      '<div class="metric-card"><div class="metric-label">Totale incassato</div><div class="metric-value">'+fmt(totalCents)+'</div><div class="metric-sub">'+filtered.length+' pagamenti · '+periodLabel+'</div></div>'+
+      '<div class="metric-card highlight"><div class="metric-label">Quota partner ('+CONFIG.quotaPct+'%)</div><div class="metric-value">'+fmt(Math.round(quota))+'</div><div class="metric-sub">Importo da liquidare</div></div>'+
+      '<div class="metric-card"><div class="metric-label">Valore medio</div><div class="metric-value">'+fmt(Math.round(avg))+'</div><div class="metric-sub">per transazione</div></div>'+
+    '</div>'+
+    '<div class="chart-section"><div class="chart-title">Andamento mensile</div><div style="position:relative;width:100%;height:200px;"><canvas id="revenue-chart"></canvas></div></div>'+
+    '<div class="table-section">'+
+      '<div class="table-header"><span>Pagamenti ('+filtered.length+')</span><button class="export-btn" onclick="exportCSV(getFiltered())">↓ Esporta CSV</button></div>'+
+      '<table><thead><tr><th>Data</th><th>Riferimento</th><th>Importo</th><th>Quota '+CONFIG.quotaPct+'%</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '</div>'+
+    '<div class="watermark">Trein Group Srl · treingroup.it · Dati in tempo reale da Stripe</div>';
+
+  if (chartInstance) { chartInstance.destroy(); chartInstance=null; }
+  if (monthly.labels.length) {
+    chartInstance = new Chart(document.getElementById('revenue-chart'),{
+      type:'line',
+      data:{
+        labels:monthly.labels.map(function(l){var p=l.split('-');return new Date(p[0],p[1]-1).toLocaleDateString('it-IT',{month:'short',year:'2-digit'});}),
+        datasets:[{data:monthly.values,borderColor:lineColor,backgroundColor:fillColor,borderWidth:1.5,pointRadius:3,pointBackgroundColor:lineColor,fill:true,tension:0.3}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return fmt(ctx.parsed.y*100);}}}},
+        scales:{
+          x:{grid:{color:gridColor},ticks:{color:labelColor,font:{family:'Courier New',size:11}}},
+          y:{grid:{color:gridColor},ticks:{color:labelColor,font:{family:'Courier New',size:11},callback:function(v){return fmt(v*100);}}}
         }
       }
     });
   }
-}
-
-function setPeriod(days, btn) {
-  currentDays = days;
-  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderDashboard(days);
-}
-
-function resetConfig() {
-  CONFIG = {};
-  allCharges = [];
-  if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
-  document.getElementById('setup-section').style.display = 'block';
-  document.getElementById('dashboard-section').style.display = 'none';
-  document.getElementById('reset-btn').style.display = 'none';
-  document.getElementById('header-sub').textContent = '— configura l\'accesso per iniziare';
 }
 </script>
 </body>
